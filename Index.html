@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Data Collection</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Customer Data Collection</h1>
+            <p class="text-gray-600">Collect and export customer information to Excel</p>
+        </header>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Add New Customer</h2>
+            
+            <form id="customerForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="mb-3">
+                    <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                    <input type="text" id="firstName" name="firstName" required 
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                    <input type="text" id="lastName" name="lastName" required 
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                    <input type="email" id="email" name="email" required 
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="phone1" class="block text-sm font-medium text-gray-700 mb-1">Phone Number 1 *</label>
+                    <input type="tel" id="phone1" name="phone1" required 
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="phone2" class="block text-sm font-medium text-gray-700 mb-1">Phone Number 2</label>
+                    <input type="tel" id="phone2" name="phone2" 
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                    <input type="text" id="address" name="address" 
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                    <input type="text" id="city" name="city" 
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
+                    <input type="text" id="state" name="state" 
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="zipCode" class="block text-sm font-medium text-gray-700 mb-1">Zip Code</label>
+                    <input type="text" id="zipCode" name="zipCode" 
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border">
+                </div>
+                
+                <div class="mb-3 md:col-span-2">
+                    <label for="comments" class="block text-sm font-medium text-gray-700 mb-1">Comments/Notes</label>
+                    <textarea id="comments" name="comments" rows="3" 
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border"></textarea>
+                </div>
+                
+                <div class="md:col-span-2 flex flex-wrap gap-3 mt-3">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Add Customer
+                    </button>
+                    <button type="button" id="exportBtn" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 flex items-center">
+                        <i class="fas fa-file-export mr-2"></i> Export to Excel
+                    </button>
+                    <button type="button" id="clearFormBtn" class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-md transition duration-200 flex items-center">
+                        <i class="fas fa-eraser mr-2"></i> Clear Form
+                    </button>
+                    <button type="button" id="clearAllBtn" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 flex items-center">
+                        <i class="fas fa-trash mr-2"></i> Clear All Data
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-gray-700">Customer Data</h2>
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="Search..." 
+                        class="w-full md:w-64 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 px-3 py-2 border pl-10">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table id="customerTable" class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-700">
+                            <th class="py-2 px-4 border-b text-left">First Name</th>
+                            <th class="py-2 px-4 border-b text-left">Last Name</th>
+                            <th class="py-2 px-4 border-b text-left">Email</th>
+                            <th class="py-2 px-4 border-b text-left">Phone 1</th>
+                            <th class="py-2 px-4 border-b text-left">Phone 2</th>
+                            <th class="py-2 px-4 border-b text-left">Address</th>
+                            <th class="py-2 px-4 border-b text-left">City</th>
+                            <th class="py-2 px-4 border-b text-left">State</th>
+                            <th class="py-2 px-4 border-b text-left">Zip</th>
+                            <th class="py-2 px-4 border-b text-left">Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerTableBody">
+                        <!-- Customer data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <p id="noDataMessage" class="text-center text-gray-500 py-4">No customer data available. Add customers using the form above.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const customerForm = document.getElementById('customerForm');
+            const customerTableBody = document.getElementById('customerTableBody');
+            const noDataMessage = document.getElementById('noDataMessage');
+            const exportBtn = document.getElementById('exportBtn');
+            const clearFormBtn = document.getElementById('clearFormBtn');
+            const clearAllBtn = document.getElementById('clearAllBtn');
+            const searchInput = document.getElementById('searchInput');
+            
+            let customers = [];
+            
+            // Load any saved customers from localStorage
+            if (localStorage.getItem('customers')) {
+                try {
+                    customers = JSON.parse(localStorage.getItem('customers'));
+                    renderCustomerTable();
+                } catch (e) {
+                    console.error("Error loading saved customers:", e);
+                    localStorage.removeItem('customers');
+                }
+            }
+            
+            // Form submission
+            customerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const customer = {
+                    firstName: document.getElementById('firstName').value.trim(),
+                    lastName: document.getElementById('lastName').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    phone1: document.getElementById('phone1').value.trim(),
+                    phone2: document.getElementById('phone2').value.trim(),
+                    address: document.getElementById('address').value.trim(),
+                    city: document.getElementById('city').value.trim(),
+                    state: document.getElementById('state').value.trim(),
+                    zipCode: document.getElementById('zipCode').value.trim(),
+                    comments: document.getElementById('comments').value.trim()
+                };
+                
+                customers.push(customer);
+                saveCustomers();
+                renderCustomerTable();
+                
+                // Show success message
+                const successDiv = document.createElement('div');
+                successDiv.className = 'bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4';
+                successDiv.innerHTML = `
+                    <span class="block sm:inline">Customer added successfully!</span>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                        <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <title>Close</title>
+                            <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                        </svg>
+                    </span>
+                `;
+                
+                customerForm.insertAdjacentElement('beforebegin', successDiv);
+                
+                // Auto-hide success message after 3 seconds
+                setTimeout(() => {
+                    successDiv.remove();
+                }, 3000);
+                
+                // Clear the form
+                customerForm.reset();
+            });
+            
+            // Export to Excel
+            exportBtn.addEventListener('click', function() {
+                if (customers.length === 0) {
+                    alert('No data to export. Please add customers first.');
+                    return;
+                }
+                
+                const workbook = XLSX.utils.book_new();
+                const worksheet = XLSX.utils.json_to_sheet(customers);
+                
+                // Add worksheet to workbook
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Customers');
+                
+                // Generate Excel file and trigger download
+                XLSX.writeFile(workbook, 'Customer_Data.xlsx');
+            });
+            
+            // Clear form
+            clearFormBtn.addEventListener('click', function() {
+                customerForm.reset();
+            });
+            
+            // Clear all data
+            clearAllBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete all customer data? This action cannot be undone.')) {
+                    customers = [];
+                    saveCustomers();
+                    renderCustomerTable();
+                }
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                renderCustomerTable();
+            });
+            
+            // Save customers to localStorage
+            function saveCustomers() {
+                localStorage.setItem('customers', JSON.stringify(customers));
+            }
+            
+            // Render customer table
+            function renderCustomerTable() {
+                customerTableBody.innerHTML = '';
+                
+                let filteredCustomers = customers;
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                if (searchTerm) {
+                    filteredCustomers = customers.filter(customer => 
+                        customer.firstName.toLowerCase().includes(searchTerm) ||
+                        customer.lastName.toLowerCase().includes(searchTerm) ||
+                        customer.email.toLowerCase().includes(searchTerm) ||
+                        customer.phone1.toLowerCase().includes(searchTerm) ||
+                        customer.phone2.toLowerCase().includes(searchTerm) ||
+                        customer.address.toLowerCase().includes(searchTerm) ||
+                        customer.city.toLowerCase().includes(searchTerm) ||
+                        customer.state.toLowerCase().includes(searchTerm) ||
+                        customer.zipCode.toLowerCase().includes(searchTerm) ||
+                        customer.comments.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                if (filteredCustomers.length === 0) {
+                    noDataMessage.style.display = 'block';
+                    if (searchTerm && customers.length > 0) {
+                        noDataMessage.textContent = 'No matching customers found. Try a different search term.';
+                    } else {
+                        noDataMessage.textContent = 'No customer data available. Add customers using the form above.';
+                    }
+                } else {
+                    noDataMessage.style.display = 'none';
+                    
+                    filteredCustomers.forEach((customer, index) => {
+                        const row = document.createElement('tr');
+                        row.className = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+                        
+                        row.innerHTML = `
+                            <td class="py-2 px-4 border-b">${escapeHtml(customer.firstName)}</td>
+                            <td class="py-2 px-4 border-b">${escapeHtml(customer.lastName)}</td>
+                            <td class="py-2 px-4 border-b">${escapeHtml(customer.email)}</td>
+                            <td class="py-2 px-4 border-b">${escapeHtml(customer.phone1)}</td>
+                            <td class="py-2 px-4 border-b">${escapeHtml(customer.phone2)}</td>
+                            <td class="py-2 px-4 border-b">${escapeHtml(customer.address)}</td>
+                            <td class="py-2 px-4 border-b">${escapeHtml(customer.city)}</td>
+                            <td class="py-2 px-4 border-b">${escapeHtml(customer.state)}</td>
+                            <td class="py-2 px-4 border-b">${escapeHtml(customer.zipCode)}</td>
+                            <td class="py-2 px-4 border-b">${escapeHtml(customer.comments)}</td>
+                        `;
+                        
+                        customerTableBody.appendChild(row);
+                    });
+                }
+            }
+            
+            // Escape HTML to prevent XSS
+            function escapeHtml(unsafe) {
+                if (!unsafe) return '';
+                return unsafe
+                    .toString()
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+            
+            // Initial render
+            renderCustomerTable();
+        });
+    </script>
+</body>
+</html>
